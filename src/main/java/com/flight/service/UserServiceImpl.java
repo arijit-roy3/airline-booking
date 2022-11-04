@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService{
     }
     @Override
     public User saveUser(User user){
-        Role role=new Role("ROLE_USER");
+        Role role=new Role("ROLE_ADMIN");
         User user1 = new User(user.getName(),
                 user.getEmailId(), user.getPhoneNo(),
                 passwordEncoder.encode(user.getPassword()),role);

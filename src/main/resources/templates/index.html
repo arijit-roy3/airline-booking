@@ -56,7 +56,6 @@ width: 100%;
             <ul class="nav navbar-nav">
                 <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/insertFlight}">Insert Flights</a></li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/showAllFlights}">View Flights</a></li>
-                <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/viewAllUsers}">View Users</a></li>
                 <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/searchFlights}">Search Flights</a></li>
                 <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/viewBookings}">My Bookings </a></li>
                 <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>

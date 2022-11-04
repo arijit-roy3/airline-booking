@@ -30,7 +30,6 @@
             <ul class="nav navbar-nav">
                 <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/insertFlight}">Insert Flights</a></li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/viewFlight}">View Flights</a></li>
-                <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/viewUsers}">View Users</a></li>
                 <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/searchFlights}">Search Flights</a></li>
                 <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/viewBookings}">My Bookings </a></li>
                 <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
@@ -44,12 +43,7 @@
 <div class ="container">
     <div class = "row">
         <h1> Your Bookings </h1>
-        <div th:if="${param.successBoardingPass}">
-            <div class="alert alert-info">Boarding Pass Generated Successfully</div>
-        </div>
-        <div th:if="${param.failedBoardingPass}">
-            <div class="alert alert-info">Boarding Pass Already Generated</div>
-        </div>
+
         <div th:if="${param.successEdit}">
             <div class="alert alert-info">Booking Edited Successfully</div>
         </div>
@@ -87,8 +81,7 @@
             <td th:text = "${booking.address}"></td>
 
             <td>
-                <a th:href = "@{/userBookings/boardingPass/{id} (id=${booking.bookingId})}"
-                   class = "btn btn-primary">Generate Boarding Pass</a>
+
                 <a th:href = "@{/userBookings/edit/{id} (id=${booking.bookingId})}"
                    class = "btn btn-primary">Reschedule</a>
                 <a th:href = "@{/userBookings/delete/{id} (id=${booking.bookingId})}"
