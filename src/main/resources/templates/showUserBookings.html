@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>EazyFlight</title>
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+</head>
+<body>
+<!-- create navigation bar ( header) -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}">EazyFlight</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/insertFlight}">Insert Flights</a></li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/viewFlight}">View Flights</a></li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/viewUsers}">View Users</a></li>
+                <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/searchFlights}">Search Flights</a></li>
+                <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/viewBookings}">My Bookings </a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+<div class ="container">
+    <div class = "row">
+        <h1> Your Bookings </h1>
+        <div th:if="${param.successBoardingPass}">
+            <div class="alert alert-info">Boarding Pass Generated Successfully</div>
+        </div>
+        <div th:if="${param.failedBoardingPass}">
+            <div class="alert alert-info">Boarding Pass Already Generated</div>
+        </div>
+        <div th:if="${param.successEdit}">
+            <div class="alert alert-info">Booking Edited Successfully</div>
+        </div>
+        <div th:if="${param.successDelete}">
+            <div class="alert alert-info">Booking Deleted Successfully</div>
+        </div>
+    </div>
+
+
+    <table class = "table table-striped table-bordered">
+        <thead class = "table-dark">
+        <tr>
+            <th> Id</th>
+            <th> First Name</th>
+            <th> Last name </th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Date</th>
+            <th> Email </th>
+            <th> Phone No.</th>
+            <th> Address</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each = "booking: ${listBookings}">
+            <td th:text = "${booking.bookingId}"></td>
+            <td th:text = "${booking.fname}"></td>
+            <td th:text = "${booking.lname}"></td>
+            <td th:text = "${booking.sourceBooking}"></td>
+            <td th:text = "${booking.destinationBooking}"></td>
+            <td th:text = "${booking.dateBooking}"></td>
+            <td th:text = "${booking.email}"></td>
+            <td th:text = "${booking.phno}"></td>
+            <td th:text = "${booking.address}"></td>
+
+            <td>
+                <a th:href = "@{/userBookings/boardingPass/{id} (id=${booking.bookingId})}"
+                   class = "btn btn-primary">Generate Boarding Pass</a>
+                <a th:href = "@{/userBookings/edit/{id} (id=${booking.bookingId})}"
+                   class = "btn btn-primary">Reschedule</a>
+                <a th:href = "@{/userBookings/delete/{id} (id=${booking.bookingId})}"
+                   class = "btn btn-danger">Cancel</a>
+            </td>
+
+
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+</body>
+</html>

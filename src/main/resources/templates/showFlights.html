@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>EazyFlight</title>
+
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+</head>
+<body>
+<!-- create navigation bar ( header) -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed"
+              data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+              aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span> <span
+              class="icon-bar"></span> <span class="icon-bar"></span> <span
+              class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" th:href="@{/}">EazyFlight</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/insertFlight}">Insert Flights</a></li>
+        <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/viewFlight}">View Flights</a></li>
+        <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/viewUsers}">View Users</a></li>
+        <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/searchFlights}">Search Flights</a></li>
+        <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/viewBookings}">My Bookings </a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<br>
+<br>
+<div class ="container">
+  <div class = "row">
+    <h1> List of Available Flights </h1>
+  </div>
+
+
+  <table class = "table table-striped table-bordered">
+    <thead class = "table-dark">
+    <tr>
+      <th> Id</th>
+      <th> Airline</th>
+      <th> Source </th>
+      <th> Destination </th>
+      <th> Date</th>
+      <th> Arrival Time</th>
+      <th> Departure Time </th>
+      <th>Duration</th>
+      <th> Price </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each = "plane: ${listOfSearchedFlights}">
+      <td th:text = "${plane.planeId}"></td>
+      <td th:text = "${plane.airline}"></td>
+      <td th:text = "${plane.source}"></td>
+      <td th:text = "${plane.destination}"></td>
+      <td th:text = "${plane.date}"></td>
+      <td th:text = "${plane.arrival}"></td>
+      <td th:text = "${plane.departure}"></td>
+      <td th:text = "${plane.duration}"></td>
+      <td th:text = "${plane.price}"></td>
+      <td>
+        <a th:href = "@{/bookFlight/{id} (id=${plane.planeId})}"
+           class = "btn btn-primary">Book Flight</a>
+      </td>
+    </tr>
+    </tbody>
+
+  </table>
+
+</div>
+</body>
+</html>

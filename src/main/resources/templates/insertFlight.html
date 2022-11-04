@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>EazyFlight</title>
+
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+</head>
+<body>
+<!-- create navigation bar ( header) -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed"
+              data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+              aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span> <span
+              class="icon-bar"></span> <span class="icon-bar"></span> <span
+              class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" th:href="@{/}">EazyFlight</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/insertFlight}">Insert Flights</a></li>
+        <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/showAllFlights}">View Flights</a></li>
+        <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/viewAllUsers}">View Users</a></li>
+        <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/searchFlights}">Search Flights</a></li>
+        <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/viewBookings}">My Bookings </a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br>
+<br>
+<!-- Create HTML registration form -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
+      <h1>Add Flight</h1>
+      <!-- success message -->
+      <div th:if="${param.success}">
+        <div class="alert alert-info">Add Flight Successful</div>
+      </div>
+
+
+
+      <form th:action="@{/insertFlight}" method="post" th:object="${plane}">
+        <div class="form-group">
+          <label class="control-label" for="airline"> Airline </label>
+          <input id="airline" class="form-control" type="text" th:field="*{airline}"
+                 required autofocus="autofocus" />
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="source"> Source </label> <input
+                id="source" class="form-control" type="text" th:field="*{source}"
+                required autofocus="autofocus" />
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="destination"> Destination </label> <input
+                id="destination" class="form-control" type="text" th:field="*{destination}" required
+                autofocus="autofocus" />
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="date"> Date </label> <input
+                id="date" class="form-control" type="date"
+                th:field="*{date}" required autofocus="autofocus" />
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="arrival"> Arrival Time </label>
+          <input id="arrival" class="form-control" type="text" th:field="*{arrival}"
+                 required autofocus="autofocus" />
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="departure"> Departure Time </label> <input
+                id="departure" class="form-control" type="text" th:field="*{departure}"
+                required autofocus="autofocus" />
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="duration"> Duration </label> <input
+                id="duration" class="form-control" type="text" th:field="*{duration}" required
+                autofocus="autofocus" />
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="price"> Price </label> <input
+                id="price" class="form-control" type="number"
+                th:field="*{price}" required autofocus="autofocus" />
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-success">Add Flight</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

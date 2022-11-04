@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>EazyFlight</title>
+
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+</head>
+<body>
+<!-- create navigation bar ( header) -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed"
+              data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+              aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span> <span
+              class="icon-bar"></span> <span class="icon-bar"></span> <span
+              class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" th:href="@{/}">EazyFlight</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/insertFlight}">Insert Flights</a></li>
+        <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/showAllFlights}">View Flights</a></li>
+        <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/viewAllUsers}">View Users</a></li>
+        <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/searchFlights}">Search Flights</a></li>
+        <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/viewBookings}">My Bookings </a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br>
+<br>
+<!-- Create HTML registration form -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
+      <h1>Book Flight</h1>
+      <!-- success message -->
+      <div th:if="${param.success}">
+        <div class="alert alert-info">Booking Successful</div>
+      </div>
+
+
+
+      <form th:action="@{/bookFlight}" method="post" th:object="${booking}">
+        <div class="form-group">
+          <label class="control-label" for="fname"> First Name </label>
+          <input id="fname" class="form-control" type="text" th:field="*{fname}"
+                 required autofocus="autofocus" />
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="lname"> Last name </label> <input
+                id="lname" class="form-control" type="text" th:field="*{lname}"
+                required autofocus="autofocus" />
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="email"> Email </label> <input
+                id="email" class="form-control" type="email" th:field="*{email}" required
+                autofocus="autofocus" />
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="phno"> Phone Number </label> <input
+                id="phno" class="form-control" type="text"
+                th:field="*{phno}" required autofocus="autofocus" />
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="address">  Address </label>
+          <input id="address" class="form-control" type="text" th:field="*{address}"
+                 required autofocus="autofocus" />
+        </div>
+
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-success">Book Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
