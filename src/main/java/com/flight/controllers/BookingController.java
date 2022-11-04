@@ -3,6 +3,7 @@ package com.flight.controllers;
 import com.flight.entity.Booking;
 import com.flight.entity.Plane;
 import com.flight.entity.User;
+import com.flight.exception.BookingException;
 import com.flight.service.BookingService;
 import com.flight.service.PlaneService;
 import com.flight.service.UserService;
@@ -11,16 +12,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 public class BookingController {
@@ -225,15 +225,17 @@ public class BookingController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-    @GetMapping("/booking/{id}")
+    @GetMapping("/bookingException/{id}")
     public ResponseEntity<Booking> getBookingById(@PathVariable("id") long planeId){
-        try{
-            log.info("Inside getBookingById of bookingcontrollers");
-            Booking booking1=bookingService.findBookingById(planeId);
-            return ResponseEntity.status(HttpStatus.OK).body(booking1);
-        }catch (Exception e){
-            log.error(e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+
+//
+
+
+            Booking booking=bookingService.findBookingById(planeId);
+            if (booking == null) {
+                throw new BookingException(" No booking found ! ");
+            }
+            return ResponseEntity.of(Optional.of(booking));
+
     }
 }
